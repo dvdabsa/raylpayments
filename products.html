@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="apple-touch-icon" href="./favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style id="rayl-enhancements">
+    /* Navbar transition base */
+    header nav {
+      transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Card glow radial — make it respond to CSS vars set by JS */
+    .group [class*="group-hover\:opacity-100"] {
+      transition: opacity 0.4s ease;
+    }
+
+    /* Scroll animation base — elements that will be animated */
+    section,
+    h2,
+    h3,
+    [class*="duration-700"] {
+      will-change: opacity, transform;
+    }
+
+    /* Smooth everything */
+    * {
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Space Grotesk for all numeric displays ── */
+    .rp-num {
+      font-family: 'Space Grotesk', sans-serif !important;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+  </style>
+<style id="rp-responsive">
+    /* ═══════════════════════════════════════════════════
+   GLOBAL RESPONSIVE FIXES
+═══════════════════════════════════════════════════ */
+
+    /* Base box model */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    /* Prevent horizontal overflow */
+    html,
+    body {
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
+
+    /* ── Dashboard Widget ── */
+    #rp-dash-widget {
+      width: 90% !important;
+      max-width: 900px !important;
+    }
+
+    /* ── Stats Band: 4-col → 2-col → 1-col ── */
+    #rp-stats-band-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* ── Stats Panel side-by-side ── */
+    #rp-stats-panel>div:nth-child(2) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* ── FAQ grid ── */
+    #rp-faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 80px;
+    }
+
+    /* ── Integrations grid ── */
+    #rp-integrations-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    /* ── Stat boxes inside dashboard ── */
+    #rp-stat-boxes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* ── Section padding ── */
+    .rp-section-pad {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    /* ── Tablet: ≤ 1024px ── */
+    @media (max-width: 1024px) {
+      #rp-dash-widget {
+        width: 92% !important;
+      }
+
+      /* FAQ: drop side gap */
+      #rp-faq-grid {
+        grid-template-columns: 1fr 1.4fr;
+        gap: 40px;
+      }
+
+      /* Integrations: 2 cols */
+      #rp-integrations-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ── Mobile: ≤ 768px ── */
+    @media (max-width: 768px) {
+
+      /* Dashboard widget full-width */
+      #rp-dash-widget {
+        width: 95% !important;
+        max-width: 100% !important;
+        border-radius: 12px !important;
+      }
+
+      /* Stats band: 2 cols */
+      [style*="grid-template-columns:repeat(4,1fr)"],
+      [style*="grid-template-columns: repeat(4, 1fr)"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+
+      /* Dashboard 3-col stat boxes: all in a row but smaller, or stack */
+      [style*="grid-template-columns:1fr 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* 2-col grids: stack */
+      [style*="grid-template-columns:1fr 1fr"],
+      [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* FAQ: fully stacked */
+      [style*="grid-template-columns:1fr 1.6fr"],
+      [style*="grid-template-columns: 1fr 1.6fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+      }
+
+      /* Integrations: 2 cols on mobile */
+      [style*="grid-template-columns:repeat(4,1fr)"],
+      [style*="grid-template-columns: repeat(4, 1fr)"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+
+      /* Section horizontal padding */
+      [style*="max-width:1100px"],
+      [style*="max-width: 1100px"],
+      [style*="max-width:1200px"] {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+      }
+
+      /* Stats band numbers */
+      [style*="font-size:2.4rem"] {
+        font-size: 1.8rem !important;
+      }
+
+      /* Manifesto grid */
+      #rp-manifesto {
+        grid-template-columns: 1fr !important;
+        padding: 0 16px !important;
+      }
+
+      #rp-manifesto-left {
+        display: none !important;
+      }
+
+      #rp-manifesto-right {
+        border-left: none !important;
+        padding-left: 0 !important;
+      }
+
+      /* Hero padding */
+      .rp-manifesto-text {
+        font-size: 1.4rem !important;
+      }
+
+      /* Activity ticker: hide "LIVE" label on mobile */
+      #rp-ticker {
+        gap: 28px !important;
+      }
+
+      /* Payment methods row in dashboard: wrap smaller */
+      #rp-dash-widget [style*="padding:14px 20px"] img {
+        height: 16px !important;
+      }
+
+      /* Payout chart panel */
+      [style*="id=rp-payout-chart"] {
+        width: 95% !important;
+      }
+    }
+
+    /* ── Small mobile: ≤ 480px ── */
+    @media (max-width: 480px) {
+      #rp-dash-widget {
+        width: 100% !important;
+        border-radius: 0 !important;
+      }
+
+      /* All 4-col grids → 1-col */
+      [style*="grid-template-columns:repeat(4,1fr)"],
+      [style*="grid-template-columns: repeat(4, 1fr)"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+
+      /* Stats band: 1 col */
+      .rp-stats-band [style*="display:grid"] {
+        grid-template-columns: 1fr 1fr !important;
+      }
+
+      /* Hero h1 */
+      h1 {
+        font-size: clamp(1.8rem, 8vw, 4rem) !important;
+      }
+
+      /* Reduce section vertical padding */
+      section {
+        padding-top: 40px !important;
+        padding-bottom: 40px !important;
+      }
+
+      /* Integrations: 2 cols */
+      [style*="repeat(4,1fr)"] {
+        grid-template-columns: 1fr 1fr !important;
+      }
+    }
+
+    /* ── Prevent payment methods images from overflowing ── */
+    .h-28 {
+      height: 5rem !important;
+    }
+
+    .w-40 {
+      width: 8rem !important;
+    }
+
+    @media (max-width: 768px) {
+      .h-28 {
+        height: 3.5rem !important;
+      }
+
+      .w-40 {
+        width: 6rem !important;
+      }
+    }
+
+    /* ── General image overflow protection ── */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ── Prevent canvas overflow ── */
+    canvas {
+      max-width: 100%;
+    }
+
+    /* ── Nav stays usable on mobile ── */
+    @media (max-width: 640px) {
+      header nav {
+        padding: 8px 16px !important;
+      }
+    }
+  </style>
+  <style>
+    @font-face {
+      font-family: 'AeonikBoldItalic';
+      src: url('./files/AeonikTRIAL-BoldItalic.otf') format('opentype');
+      font-weight: 700;
+      font-style: italic;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'AeonikLight';
+      src: url('./files/AeonikTRIAL-Light.otf') format('opentype');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <link rel="preload" href="https://raylpay.io/_next/static/media/7ebf22b5a21034f8-s.p.d8bad3ab.woff2" as="font"
+    crossorigin="" type="font/woff2">
+  <link rel="preload" href="https://raylpay.io/_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2" as="font"
+    crossorigin="" type="font/woff2">
+  <link rel="preload" href="https://raylpay.io/_next/static/media/e41d5df559864f9e-s.p.380d09ea.woff2" as="font"
+    crossorigin="" type="font/woff2">
+  <link rel="preload" as="image" href="./files/dashboard.png">
+  <link rel="preload" as="image" href="./files/maestro.png">
+  <link rel="preload" as="image" href="./files/cirrus.png">
+  <link rel="preload" as="image" href="./files/applepay.png">
+  <link rel="preload" as="image" href="./files/gpay.png">
+  <link rel="preload" as="image" href="./files/mastercard.png">
+  <link rel="preload" as="image" href="./files/visa.png">
+  <link rel="preload" as="image" href="./files/amex.png">
+  <link rel="preload" as="image" href="./files/diners.png">
+  <link rel="stylesheet" href="./files/5855f87e8dc35c45.css"
+    data-precedence="next">
+  <link rel="stylesheet" href="./files/6a5b8263aaa8b66d.css"
+    data-precedence="next">
+  <link rel="preload" as="script" fetchpriority="low"
+    href="./files/537732221c8d5ac1.js">
+  <script src="./files/9f5bec0f86d210ea.js" async=""></script>
+  <script src="./files/637040af63e7b8d8.js" async=""></script>
+  <script src="./files/98b796d362377d4e.js" async=""></script>
+  <script src="./files/turbopack-a06355291817410d.js"
+    async=""></script>
+  <script src="./files/43a160f320c50c3c.js" async=""></script>
+  <script src="./files/e7afdc673ade4722.js" async=""></script>
+  <script src="./files/7518522132085d66.js" async=""></script>
+  <script src="./files/609e5ef6dda2484d.js" async=""></script>
+  <script src="./files/878b3a13c960df9d.js" async=""></script>
+  <script src="./files/a276ac665f808639.js" async=""></script>
+  <link rel="preload" as="image" href="./files/discover.png">
+  <link rel="preload" as="image" href="./files/elo.png">
+  <link rel="preload" as="image" href="./files/jcb.png">
+  <meta name="next-size-adjust" content="">
+  <meta name="theme-color" content="#000000">
+  <title>Products — Rayl Pay</title>
+  <meta name="description"
+    content="Rayl Pay is the merchant of record platform built for software companies. Collect revenue globally, stay compliant, and protect against fraud — all from one place.">
+  <meta name="author" content="Rayl Pay">
+  <meta name="keywords"
+    content="merchant of record,payment processing,SaaS payments,digital commerce,global payments,VAT compliance,fraud protection,subscription billing,Rayl Pay">
+  <meta name="creator" content="Rayl Pay">
+  <meta name="publisher" content="Rayl Pay">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1">
+  <meta property="og:title" content="Rayl Pay — Built for Global Software Revenue">
+  <meta property="og:description"
+    content="The merchant of record platform for modern software businesses. Global payments, tax automation, and fraud protection — built in.">
+  <meta property="og:url" content="https://raylpay.io">
+  <meta property="og:site_name" content="Rayl Pay">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rayl Pay — Built for Global Software Revenue">
+  <meta name="twitter:description"
+    content="The merchant of record platform for modern software businesses. Global payments, tax automation, and fraud protection — built in.">
+  <script src="./files/a6dad97d9634a72d.js" nomodule=""></script>
+  <input type="hidden" id="_o_dbjbempljhcmhlfpfacalomonjpalpko" data-inspect-config="7">
+  <script type="text/javascript"
+    src="chrome-extension://dbjbempljhcmhlfpfacalomonjpalpko/scripts/inspector.js"></script>
+  <style>
+    @keyframes slide-in-one-tap {
+      from {
+        transform: translateY(80px);
+      }
+
+      to {
+        transform: translateY(0px);
+      }
+    }
+
+    .trust-hide-gracefully {
+      opacity: 0;
+    }
+
+    .trust-wallet-one-tap .hidden {
+      display: none;
+    }
+
+    .trust-wallet-one-tap .semibold {
+      font-weight: 500;
+    }
+
+    .trust-wallet-one-tap .binance-plex {
+      font-family: 'Binance';
+    }
+
+    .trust-wallet-one-tap .rounded-full {
+      border-radius: 50%;
+    }
+
+    .trust-wallet-one-tap .flex {
+      display: flex;
+    }
+
+    .trust-wallet-one-tap .flex-col {
+      flex-direction: column;
+    }
+
+    .trust-wallet-one-tap .items-center {
+      align-items: center;
+    }
+
+    .trust-wallet-one-tap .space-between {
+      justify-content: space-between;
+    }
+
+    .trust-wallet-one-tap .justify-center {
+      justify-content: center;
+    }
+
+    .trust-wallet-one-tap .w-full {
+      width: 100%;
+    }
+
+    .trust-wallet-one-tap .box {
+      transition: all 0.5s cubic-bezier(0, 0, 0, 1.43);
+      animation: slide-in-one-tap 0.5s cubic-bezier(0, 0, 0, 1.43);
+      width: 384px;
+      border-radius: 15px;
+      background: #fff;
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+      position: fixed;
+      right: 30px;
+      bottom: 30px;
+      z-index: 1020;
+    }
+
+    .trust-wallet-one-tap .header {
+      gap: 15px;
+      border-bottom: 1px solid #e6e6e6;
+      padding: 10px 18px;
+    }
+
+    .trust-wallet-one-tap .header .left-items {
+      gap: 15px;
+    }
+
+    .trust-wallet-one-tap .header .title {
+      color: #1e2329;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 28px;
+    }
+
+    .trust-wallet-one-tap .header .subtitle {
+      color: #474d57;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .trust-wallet-one-tap .header .close {
+      color: #1e2329;
+      cursor: pointer;
+    }
+
+    .trust-wallet-one-tap .body {
+      padding: 9px 18px;
+      gap: 10px;
+    }
+
+    .trust-wallet-one-tap .body .right-items {
+      gap: 10px;
+      width: 100%;
+    }
+
+    .trust-wallet-one-tap .body .right-items .wallet-title {
+      color: #1e2329;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 20px;
+    }
+
+    .trust-wallet-one-tap .body .right-items .wallet-subtitle {
+      color: #474d57;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .trust-wallet-one-tap .connect-indicator {
+      gap: 15px;
+      padding: 8px 0;
+    }
+
+    .trust-wallet-one-tap .connect-indicator .flow-icon {
+      color: #474d57;
+    }
+
+    .trust-wallet-one-tap .loading-color {
+      color: #fff;
+    }
+
+    .trust-wallet-one-tap .button {
+      border-radius: 50px;
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+      background-color: rgb(5, 0, 255);
+      border-color: rgb(229, 231, 235);
+      cursor: pointer;
+      text-align: center;
+      height: 45px;
+    }
+
+    .trust-wallet-one-tap .button .button-text {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 20px;
+    }
+
+    .trust-wallet-one-tap .footer {
+      margin: 20px 30px;
+    }
+
+    .trust-wallet-one-tap .check-icon {
+      color: #fff;
+    }
+
+    @font-face {
+      font-family: 'Binance';
+      src: url(chrome-extension://egjidjbpglichdcondbcbdnbeeppgdph/fonts/BinancePlex-Regular.otf) format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Binance';
+      src: url(chrome-extension://egjidjbpglichdcondbcbdnbeeppgdph/fonts/BinancePlex-Medium.otf) format('opentype');
+      font-weight: 500;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Binance';
+      src: url(chrome-extension://egjidjbpglichdcondbcbdnbeeppgdph/fonts/BinancePlex-SemiBold.otf) format('opentype');
+      font-weight: 600;
+      font-style: normal;
+    }
+
+    /*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8uL2FwcC9zcmMvb25lVGFwL3N0eWxlLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0lBQ0UsMkJBQTJCO0VBQzdCO0VBQ0E7SUFDRSwwQkFBMEI7RUFDNUI7QUFDRjs7QUFFQTtFQUNFLFVBQVU7QUFDWjs7QUFHRTtJQUNFLGFBQWE7RUFDZjs7QUFFQTtJQUNFLGdCQUFnQjtFQUNsQjs7QUFFQTtJQUNFLHNCQUFzQjtFQUN4Qjs7QUFFQTtJQUNFLGtCQUFrQjtFQUNwQjs7QUFFQTtJQUNFLGFBQWE7RUFDZjs7QUFFQTtJQUNFLHNCQUFzQjtFQUN4Qjs7QUFFQTtJQUNFLG1CQUFtQjtFQUNyQjs7QUFFQTtJQUNFLDhCQUE4QjtFQUNoQzs7QUFFQTtJQUNFLHVCQUF1QjtFQUN6Qjs7QUFFQTtJQUNFLFdBQVc7RUFDYjs7QUFFQTtJQUNFLGdEQUFnRDtJQUNoRCw0REFBNEQ7SUFDNUQsWUFBWTtJQUNaLG1CQUFtQjtJQUNuQixnQkFBZ0I7SUFDaEIsK0NBQStDO0lBQy9DLGVBQWU7SUFDZixXQUFXO0lBQ1gsWUFBWTtJQUNaLGFBQWE7RUFDZjs7QUFFQTtJQUNFLFNBQVM7SUFDVCxnQ0FBZ0M7SUFDaEMsa0JBQWtCO0VBdUJwQjs7QUFyQkU7TUFDRSxTQUFTO0lBQ1g7O0FBRUE7TUFDRSxjQUFjO01BQ2QsZUFBZTtNQUNmLGdCQUFnQjtNQUNoQixpQkFBaUI7SUFDbkI7O0FBRUE7TUFDRSxjQUFjO01BQ2QsZUFBZTtNQUNmLGlCQUFpQjtJQUNuQjs7QUFFQTtNQUNFLGNBQWM7TUFDZCxlQUFlO0lBQ2pCOztBQUdGO0lBQ0UsaUJBQWlCO0lBQ2pCLFNBQVM7RUFtQlg7O0FBakJFO01BQ0UsU0FBUztNQUNULFdBQVc7SUFjYjs7QUFaRTtRQUNFLGNBQWM7UUFDZCxlQUFlO1FBQ2YsZ0JBQWdCO1FBQ2hCLGlCQUFpQjtNQUNuQjs7QUFFQTtRQUNFLGNBQWM7UUFDZCxlQUFlO1FBQ2YsaUJBQWlCO01BQ25COztBQUlKO0lBQ0UsU0FBUztJQUNULGNBQWM7RUFLaEI7O0FBSEU7TUFDRSxjQUFjO0lBQ2hCOztBQUdGO0lBQ0UsV0FBVztFQUNiOztBQUVBO0lBQ0UsbUJBQW1CO0lBQ25CLDhCQUE4QjtJQUM5QixtQkFBbUI7SUFDbkIsZ0NBQWdDO0lBQ2hDLGdDQUFnQztJQUNoQyxlQUFlO0lBQ2Ysa0JBQWtCO0lBQ2xCLFlBQVk7RUFRZDs7QUFORTtNQUNFLFdBQVc7TUFDWCxlQUFlO01BQ2YsZ0JBQWdCO01BQ2hCLGlCQUFpQjtJQUNuQjs7QUFHRjtJQUNFLGlCQUFpQjtFQUNuQjs7QUFFQTtJQUNFLFdBQVc7RUFDYjs7QUFHRjtFQUNFLHNCQUFzQjtFQUN0QiwrREFBMEU7RUFDMUUsZ0JBQWdCO0VBQ2hCLGtCQUFrQjtBQUNwQjs7QUFFQTtFQUNFLHNCQUFzQjtFQUN0QiwrREFBeUU7RUFDekUsZ0JBQWdCO0VBQ2hCLGtCQUFrQjtBQUNwQjs7QUFFQTtFQUNFLHNCQUFzQjtFQUN0QiwrREFBMkU7RUFDM0UsZ0JBQWdCO0VBQ2hCLGtCQUFrQjtBQUNwQiIsInNvdXJjZXNDb250ZW50IjpbIkBrZXlmcmFtZXMgc2xpZGUtaW4tb25lLXRhcCB7XG4gIGZyb20ge1xuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlWSg4MHB4KTtcbiAgfVxuICB0byB7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDBweCk7XG4gIH1cbn1cblxuLnRydXN0LWhpZGUtZ3JhY2VmdWxseSB7XG4gIG9wYWNpdHk6IDA7XG59XG5cbi50cnVzdC13YWxsZXQtb25lLXRhcCB7XG4gIC5oaWRkZW4ge1xuICAgIGRpc3BsYXk6IG5vbmU7XG4gIH1cblxuICAuc2VtaWJvbGQge1xuICAgIGZvbnQtd2VpZ2h0OiA1MDA7XG4gIH1cblxuICAuYmluYW5jZS1wbGV4IHtcbiAgICBmb250LWZhbWlseTogJ0JpbmFuY2UnO1xuICB9XG5cbiAgLnJvdW5kZWQtZnVsbCB7XG4gICAgYm9yZGVyLXJhZGl1czogNTAlO1xuICB9XG5cbiAgLmZsZXgge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gIH1cblxuICAuZmxleC1jb2wge1xuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIH1cblxuICAuaXRlbXMtY2VudGVyIHtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICB9XG5cbiAgLnNwYWNlLWJldHdlZW4ge1xuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcbiAgfVxuXG4gIC5qdXN0aWZ5LWNlbnRlciB7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIH1cblxuICAudy1mdWxsIHtcbiAgICB3aWR0aDogMTAwJTtcbiAgfVxuXG4gIC5ib3gge1xuICAgIHRyYW5zaXRpb246IGFsbCAwLjVzIGN1YmljLWJlemllcigwLCAwLCAwLCAxLjQzKTtcbiAgICBhbmltYXRpb246IHNsaWRlLWluLW9uZS10YXAgMC41cyBjdWJpYy1iZXppZXIoMCwgMCwgMCwgMS40Myk7XG4gICAgd2lkdGg6IDM4NHB4O1xuICAgIGJvcmRlci1yYWRpdXM6IDE1cHg7XG4gICAgYmFja2dyb3VuZDogI2ZmZjtcbiAgICBib3gtc2hhZG93OiAwcHggMnB4IDRweCAwcHggcmdiYSgwLCAwLCAwLCAwLjI1KTtcbiAgICBwb3NpdGlvbjogZml4ZWQ7XG4gICAgcmlnaHQ6IDMwcHg7XG4gICAgYm90dG9tOiAzMHB4O1xuICAgIHotaW5kZXg6IDEwMjA7XG4gIH1cblxuICAuaGVhZGVyIHtcbiAgICBnYXA6IDE1cHg7XG4gICAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkICNlNmU2ZTY7XG4gICAgcGFkZGluZzogMTBweCAxOHB4O1xuXG4gICAgLmxlZnQtaXRlbXMge1xuICAgICAgZ2FwOiAxNXB4O1xuICAgIH1cblxuICAgIC50aXRsZSB7XG4gICAgICBjb2xvcjogIzFlMjMyOTtcbiAgICAgIGZvbnQtc2l6ZTogMThweDtcbiAgICAgIGZvbnQtd2VpZ2h0OiA2MDA7XG4gICAgICBsaW5lLWhlaWdodDogMjhweDtcbiAgICB9XG5cbiAgICAuc3VidGl0bGUge1xuICAgICAgY29sb3I6ICM0NzRkNTc7XG4gICAgICBmb250LXNpemU6IDE0cHg7XG4gICAgICBsaW5lLWhlaWdodDogMjBweDtcbiAgICB9XG5cbiAgICAuY2xvc2Uge1xuICAgICAgY29sb3I6ICMxZTIzMjk7XG4gICAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgfVxuICB9XG5cbiAgLmJvZHkge1xuICAgIHBhZGRpbmc6IDlweCAxOHB4O1xuICAgIGdhcDogMTBweDtcblxuICAgIC5yaWdodC1pdGVtcyB7XG4gICAgICBnYXA6IDEwcHg7XG4gICAgICB3aWR0aDogMTAwJTtcblxuICAgICAgLndhbGxldC10aXRsZSB7XG4gICAgICAgIGNvbG9yOiAjMWUyMzI5O1xuICAgICAgICBmb250LXNpemU6IDE2cHg7XG4gICAgICAgIGZvbnQtd2VpZ2h0OiA2MDA7XG4gICAgICAgIGxpbmUtaGVpZ2h0OiAyMHB4O1xuICAgICAgfVxuXG4gICAgICAud2FsbGV0LXN1YnRpdGxlIHtcbiAgICAgICAgY29sb3I6ICM0NzRkNTc7XG4gICAgICAgIGZvbnQtc2l6ZTogMTRweDtcbiAgICAgICAgbGluZS1oZWlnaHQ6IDIwcHg7XG4gICAgICB9XG4gICAgfVxuICB9XG5cbiAgLmNvbm5lY3QtaW5kaWNhdG9yIHtcbiAgICBnYXA6IDE1cHg7XG4gICAgcGFkZGluZzogOHB4IDA7XG5cbiAgICAuZmxvdy1pY29uIHtcbiAgICAgIGNvbG9yOiAjNDc0ZDU3O1xuICAgIH1cbiAgfVxuXG4gIC5sb2FkaW5nLWNvbG9yIHtcbiAgICBjb2xvcjogI2ZmZjtcbiAgfVxuXG4gIC5idXR0b24ge1xuICAgIGJvcmRlci1yYWRpdXM6IDUwcHg7XG4gICAgb3V0bGluZTogMnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuICAgIG91dGxpbmUtb2Zmc2V0OiAycHg7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDUsIDAsIDI1NSk7XG4gICAgYm9yZGVyLWNvbG9yOiByZ2IoMjI5LCAyMzEsIDIzNSk7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBoZWlnaHQ6IDQ1cHg7XG5cbiAgICAuYnV0dG9uLXRleHQge1xuICAgICAgY29sb3I6ICNmZmY7XG4gICAgICBmb250LXNpemU6IDE2cHg7XG4gICAgICBmb250LXdlaWdodDogNjAwO1xuICAgICAgbGluZS1oZWlnaHQ6IDIwcHg7XG4gICAgfVxuICB9XG5cbiAgLmZvb3RlciB7XG4gICAgbWFyZ2luOiAyMHB4IDMwcHg7XG4gIH1cblxuICAuY2hlY2staWNvbiB7XG4gICAgY29sb3I6ICNmZmY7XG4gIH1cbn1cblxuQGZvbnQtZmFjZSB7XG4gIGZvbnQtZmFtaWx5OiAnQmluYW5jZSc7XG4gIHNyYzogdXJsKCcuL2ZvbnRzL2JpbmFuY2VQbGV4L0JpbmFuY2VQbGV4LVJlZ3VsYXIub3RmJykgZm9ybWF0KCdvcGVudHlwZScpO1xuICBmb250LXdlaWdodDogNDAwO1xuICBmb250LXN0eWxlOiBub3JtYWw7XG59XG5cbkBmb250LWZhY2Uge1xuICBmb250LWZhbWlseTogJ0JpbmFuY2UnO1xuICBzcmM6IHVybCgnLi9mb250cy9iaW5hbmNlUGxleC9CaW5hbmNlUGxleC1NZWRpdW0ub3RmJykgZm9ybWF0KCdvcGVudHlwZScpO1xuICBmb250LXdlaWdodDogNTAwO1xuICBmb250LXN0eWxlOiBub3JtYWw7XG59XG5cbkBmb250LWZhY2Uge1xuICBmb250LWZhbWlseTogJ0JpbmFuY2UnO1xuICBzcmM6IHVybCgnLi9mb250cy9iaW5hbmNlUGxleC9CaW5hbmNlUGxleC1TZW1pQm9sZC5vdGYnKSBmb3JtYXQoJ29wZW50eXBlJyk7XG4gIGZvbnQtd2VpZ2h0OiA2MDA7XG4gIGZvbnQtc3R5bGU6IG5vcm1hbDtcbn1cbiJdLCJzb3VyY2VSb290IjoiIn0= */
+  </style>
+  <script async="" type="text/javascript"
+    src="./files/tracking.js"></script>
+  <script src="./files/2d6c39f2b4e74d75.js"></script>
+  <script src="./files/be778b89f68cf0ec.js"></script>
+  <script src="./files/695816628d9c0c90.js"></script>
+  <script src="./files/d85c3453b1d8d0ad.js"></script>
+  <script src="./files/65cac7fd8c601abc.js"></script>
+  <script src="./files/23720355f4924c4c.js"></script>
+  <script src="./files/2c9a8ad8842fc9b4.js"></script>
+  <script src="./files/07e7fcd3ea8c7d99.js"></script>
+  <script src="./files/76543a969c96e7d2.js"></script>
+  <script src="./files/454e07940bd9011c.js"></script>
+  <script src="./files/ed1ec257aff55986.js"></script>
+  <script src="./files/f73fb6c6758602ac.js"></script>
+  <script src="./files/49355b540005482e.js"></script>
+  <script src="./files/885e9cb91ee82909.js"></script>
+  <script src="./files/0cf0f52947dfc9b8.js"></script>
+  <script src="./files/a494dbcdd09bc96c.js"></script>
+  <script src="./files/2c989b522361477b.js"></script>
+  <script src="./files/6425a31a9535e633.js"></script>
+  <!-- SEO & Social -->
+  <meta name="description" content="Accept payments globally with tax, fraud, and compliance handled for you. The Merchant of Record for software businesses.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Rayl Pay">
+  <meta property="og:title" content="Rayl Pay — Global Merchant of Record Platform">
+  <meta property="og:description" content="Accept payments globally with tax, fraud, and compliance handled for you. The Merchant of Record for software businesses.">
+  <meta property="og:url" content="https://raylpay.io/">
+  <meta property="og:image" content="https://raylpay.io/og/home.html">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@raylpay">
+  <meta name="twitter:title" content="Rayl Pay — Global Merchant of Record Platform">
+  <meta name="twitter:description" content="Accept payments globally with tax, fraud, and compliance handled for you. The Merchant of Record for software businesses.">
+  <meta name="twitter:image" content="https://raylpay.io/og/home.html">
+
+<style id="rp-category-smooth">
+  html { scroll-behavior: smooth; }
+  .feature-section { scroll-margin-top: 100px; }
+  .section-nav { position:sticky; top:72px; z-index:39; background:rgba(0,0,0,0.85); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.06); padding:0 clamp(16px,4vw,48px); }
+  .section-nav-inner { max-width:1100px; margin:0 auto; display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; padding:10px 0; }
+  .section-nav-inner::-webkit-scrollbar { display:none; }
+  .section-nav a { flex-shrink:0; padding:6px 14px; border-radius:9999px; font-size:13px; font-weight:500; color:rgba(255,255,255,0.5); text-decoration:none; transition:all .2s; white-space:nowrap; }
+  .section-nav a:hover { color:#fff; background:rgba(255,255,255,0.07); }
+  .section-nav a.active { color:#fff; background:rgba(255,255,255,0.1); }
+</style>
+</head>
+<body class="inter_5901b7c6-module__ec5Qua__variable font-sans antialiased bg-background text-foreground">
+
+<header class="fixed top-0 left-0 right-0 z-50">
+    <div class="mx-auto max-w-7xl px-4 pt-4 md:px-6">
+      <nav
+        class="flex items-center justify-between rounded-2xl px-5 py-3 transition-all duration-500 ease-out scale-100 border border-transparent bg-transparent shadow-none">
+        <a class="flex items-center gap-2" href="https://raylpay.io/"><span
+            style="display:inline-flex;align-items:baseline;line-height:1;letter-spacing:-0.01em"><span
+              style="font-family:'AeonikBoldItalic',sans-serif;font-weight:700;font-style:italic;font-size:1.6rem;color:inherit">Rayl</span><span
+              style="font-family:'AeonikLight',sans-serif;font-weight:300;font-style:normal;font-size:1.6rem;color:inherit;margin-left:0.12em">Pay</span></span></a>
+        <div class="hidden items-center gap-0.5 md:flex">
+          <div class="relative"><button
+              class="flex items-center gap-1 rounded-lg px-4 py-2 text-sm transition-colors duration-200 text-white/90 hover:text-white">Products<svg
+                xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-chevron-down transition-transform duration-200" aria-hidden="true">
+                <path d="m6 9 6 6 6-6"></path>
+              </svg></button></div>
+          <div class="relative"><button
+              class="flex items-center gap-1 rounded-lg px-4 py-2 text-sm transition-colors duration-200 text-white/90 hover:text-white">Solutions<svg
+                xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-chevron-down transition-transform duration-200" aria-hidden="true">
+                <path d="m6 9 6 6 6-6"></path>
+              </svg></button></div>
+          <div class="relative"><a
+              class="flex items-center gap-1 rounded-lg px-4 py-2 text-sm text-white/90 transition-colors duration-200 hover:text-white"
+              href="./pricing.html">Pricing</a></div>
+          <div class="relative"><button
+              class="flex items-center gap-1 rounded-lg px-4 py-2 text-sm transition-colors duration-200 text-white/90 hover:text-white">Developers<svg
+                xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-chevron-down transition-transform duration-200" aria-hidden="true">
+                <path d="m6 9 6 6 6-6"></path>
+              </svg></button></div>
+          <div class="relative"><button
+              class="flex items-center gap-1 rounded-lg px-4 py-2 text-sm transition-colors duration-200 text-white/90 hover:text-white">Support<svg
+                xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-chevron-down transition-transform duration-200" aria-hidden="true">
+                <path d="m6 9 6 6 6-6"></path>
+              </svg></button></div>
+        </div>
+        <div class="hidden items-center gap-5 md:flex"><a href="https://app.raylpay.io/login"
+            class="rounded-lg border border-transparent px-4 py-2 text-sm text-white/90 transition-all duration-300 ease-out hover:border-white/20 hover:bg-white/[0.04] hover:text-white">Sign
+            In</a><a href="https://app.raylpay.io/signup"
+            class="inline-flex h-9 items-center gap-1.5 rounded-full bg-[#fd5e53] px-5 text-sm font-medium text-white transition-all duration-300 ease-out hover:bg-[#fd5e53]/90 hover:scale-[1.02]">Get
+            Started</a></div><button class="text-white md:hidden" aria-label="Toggle menu"><svg
+            xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-menu" aria-hidden="true">
+            <path d="M4 5h16"></path>
+            <path d="M4 12h16"></path>
+            <path d="M4 19h16"></path>
+          </svg></button>
+      </nav>
+    </div>
+    <div
+      class="fixed inset-x-0 top-[76px] z-40 hidden md:block transition-all duration-300 ease-out opacity-0 invisible pointer-events-none">
+      <div class="relative border-t border-white/[0.04]"
+        style="background:#0d0d0d;border:1px solid rgba(255,255,255,0.08);box-shadow:0 24px 60px rgba(0,0,0,0.7)">
+        <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent">
+        </div>
+        <div
+          class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-[#fd5e53]/[0.03] blur-[100px] pointer-events-none">
+        </div>
+        <div class="relative mx-auto max-w-7xl px-6 py-10 min-h-[340px]">
+          <div
+            class="transition-all duration-300 ease-out opacity-0 translate-y-2 absolute inset-x-6 pointer-events-none">
+          </div>
+          <div
+            class="transition-all duration-300 ease-out opacity-0 translate-y-2 absolute inset-x-6 pointer-events-none">
+          </div>
+          <div
+            class="transition-all duration-300 ease-out opacity-0 translate-y-2 absolute inset-x-6 pointer-events-none">
+          </div>
+          <div
+            class="transition-all duration-300 ease-out opacity-0 translate-y-2 absolute inset-x-6 pointer-events-none">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="fixed inset-x-0 top-[76px] z-40 overflow-hidden transition-all duration-300 ease-out md:hidden max-h-0 opacity-0 pointer-events-none">
+      <div class="mx-4 rounded-2xl border border-white/[0.06] bg-[#0a0a0a]/95 backdrop-blur-xl px-5 pb-5 pt-4">
+        <div class="flex flex-col gap-0.5 max-h-[70vh] overflow-y-auto">
+          <div>
+            <div><button
+                class="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm text-white/90 transition-colors hover:bg-white/[0.04] hover:text-white">Products<svg
+                  xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="lucide lucide-chevron-down transition-transform" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg></button></div>
+          </div>
+          <div>
+            <div><button
+                class="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm text-white/90 transition-colors hover:bg-white/[0.04] hover:text-white">Solutions<svg
+                  xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="lucide lucide-chevron-down transition-transform" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg></button></div>
+          </div>
+          <div><a
+              class="block rounded-lg px-3 py-2.5 text-sm text-white/90 transition-colors hover:bg-white/[0.04] hover:text-white"
+              href="./pricing.html">Pricing</a></div>
+          <div>
+            <div><button
+                class="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm text-white/90 transition-colors hover:bg-white/[0.04] hover:text-white">Developers<svg
+                  xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="lucide lucide-chevron-down transition-transform" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg></button></div>
+          </div>
+          <div>
+            <div><button
+                class="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm text-white/90 transition-colors hover:bg-white/[0.04] hover:text-white">Support<svg
+                  xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="lucide lucide-chevron-down transition-transform" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg></button></div>
+          </div>
+          <div class="mt-3 flex flex-col gap-2 border-t border-white/[0.06] pt-4"><a href="https://app.raylpay.io/login"
+              class="flex items-center justify-center py-2.5 text-sm text-white/90 transition-colors hover:text-white">Sign
+              In</a><a href="https://app.raylpay.io/signup"
+              class="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[#fd5e53] text-sm font-medium text-white transition-all duration-300 ease-out hover:bg-[#fd5e53]/90 hover:scale-[1.02]">Get
+              Started<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-chevron-right" aria-hidden="true">
+                <path d="m9 18 6-6-6-6"></path>
+              </svg></a></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<main>
+
+  <!-- Category hero -->
+  <section style="padding:140px 24px 64px;text-align:center;position:relative;overflow:hidden;">
+    <!-- Grid background -->
+    <div style="position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(4,1fr);pointer-events:none;">
+      <div class="border border-white/[0.04] bg-white/[0.02]"></div><div class="border border-white/[0.04] bg-white/[0.02]"></div><div class="border border-white/[0.04]"></div><div class="border border-white/[0.04]"></div><div class="border border-white/[0.04] bg-white/[0.02]"></div><div class="border border-white/[0.04]"></div><div class="border border-white/[0.04]"></div><div class="border border-white/[0.04] bg-white/[0.02]"></div><div class="border border-white/[0.04]"></div><div class="border border-white/[0.04]"></div><div class="border border-white/[0.04] bg-white/[0.02]"></div><div class="border border-white/[0.04]"></div><div class="border border-white/[0.04]"></div><div class="border border-white/[0.04] bg-white/[0.02]"></div><div class="border border-white/[0.04] bg-white/[0.02]"></div><div class="border border-white/[0.04]"></div><div class="border border-white/[0.04] bg-white/[0.02]"></div><div class="border border-white/[0.04]"></div><div class="border border-white/[0.04]"></div><div class="border border-white/[0.04] bg-white/[0.02]"></div>
+    </div>
+    <!-- Glow blob -->
+    <div style="position:absolute;top:10%;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse at center,rgba(253,94,83,0.12) 0%,transparent 70%);pointer-events:none;"></div>
+    <!-- Fade overlay -->
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,#000 100%);pointer-events:none;"></div>
+    <div style="position:relative;margin:0 auto;max-width:640px;">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(253,94,83,0.08);border:1px solid rgba(253,94,83,0.2);border-radius:9999px;padding:5px 14px;margin-bottom:24px;">
+        <span style="width:6px;height:6px;background:#fd5e53;border-radius:50%;display:inline-block;"></span>
+        <span style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fd5e53;">Products</span>
+      </div>
+      <h1 style="font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;letter-spacing:-.03em;color:#fff;line-height:1.1;margin:0 0 20px;">Everything you need to <span style="color:rgba(255,255,255,0.35)">collect revenue globally</span></h1>
+      <p style="font-size:1.1rem;color:rgba(255,255,255,0.5);max-width:520px;margin:0 auto;line-height:1.75;">One platform for payments, tax, fraud protection, and payouts — all working together.</p>
+    </div>
+  </section>
+
+  <!-- Sticky section nav -->
+  <nav class="section-nav">
+    <div class="section-nav-inner">
+      <a href="#payment-processing">Payment Processing</a><a href="#tax-compliance">Tax &amp; Compliance</a><a href="#fraud-protection">Fraud Protection</a><a href="#analytics">Analytics</a><a href="#subscription-billing">Subscription Billing</a><a href="#global-payouts">Global Payouts</a>
+    </div>
+  </nav>
+
+  
+  <section id="payment-processing" class="feature-section" style="padding:clamp(64px,8vw,100px) clamp(16px,4vw,48px);border-top:1px solid rgba(255,255,255,0.06);">
+    <div style="max-width:1100px;margin:0 auto;">
+
+      <!-- Feature hero -->
+      <div style="margin-bottom:56px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:12px;">Products</div>
+        <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-.03em;color:#fff;margin:0 0 16px;">Payment Processing</h2>
+        <p style="font-size:1.05rem;color:rgba(255,255,255,0.45);max-width:560px;line-height:1.75;">Accept every major payment method globally with best-in-class routing and instant settlement.</p>
+      </div>
+
+      <!-- Feature cards -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px;">
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Global card acceptance</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Visa, Mastercard, Amex and 50+ local methods</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Smart routing</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Maximises authorisation rates across processors</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Instant settlement</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Funds typically arrive within 1–2 business days</div>
+        </div>
+      </div>
+
+      <!-- Dashboard stats -->
+      <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:32px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:24px;">Live Preview</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$284,912</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Total Volume</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">14,830</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Transactions</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">98.7%</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Success Rate</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$19.21</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Avg Transaction</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <section id="tax-compliance" class="feature-section" style="padding:clamp(64px,8vw,100px) clamp(16px,4vw,48px);border-top:1px solid rgba(255,255,255,0.06);">
+    <div style="max-width:1100px;margin:0 auto;">
+
+      <!-- Feature hero -->
+      <div style="margin-bottom:56px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:12px;">Products</div>
+        <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-.03em;color:#fff;margin:0 0 16px;">Tax &amp; Compliance</h2>
+        <p style="font-size:1.05rem;color:rgba(255,255,255,0.45);max-width:560px;line-height:1.75;">We calculate, collect, and remit tax in 200+ jurisdictions so you never touch a tax return.</p>
+      </div>
+
+      <!-- Feature cards -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px;">
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Automatic tax calculation</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">VAT, GST &amp; sales tax computed on every transaction</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Jurisdiction-aware remittance</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Filed on your behalf in every region you sell</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Audit-ready reports</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Full paper trail available for download any time</div>
+        </div>
+      </div>
+
+      <!-- Dashboard stats -->
+      <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:32px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:24px;">Live Preview</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$38,201</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Tax Collected</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">47</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Jurisdictions</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$12,450</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Pending Remittance</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">94%</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Filings Completed</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <section id="fraud-protection" class="feature-section" style="padding:clamp(64px,8vw,100px) clamp(16px,4vw,48px);border-top:1px solid rgba(255,255,255,0.06);">
+    <div style="max-width:1100px;margin:0 auto;">
+
+      <!-- Feature hero -->
+      <div style="margin-bottom:56px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:12px;">Products</div>
+        <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-.03em;color:#fff;margin:0 0 16px;">Fraud Protection</h2>
+        <p style="font-size:1.05rem;color:rgba(255,255,255,0.45);max-width:560px;line-height:1.75;">Real-time ML risk scoring on every transaction with full chargeback liability coverage.</p>
+      </div>
+
+      <!-- Feature cards -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px;">
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">ML risk scoring</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Every transaction scored in &lt;20ms using hundreds of signals</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Chargeback liability</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">We absorb the cost of disputes on qualifying transactions</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">3D Secure</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Adaptive 3DS friction based on risk score</div>
+        </div>
+      </div>
+
+      <!-- Dashboard stats -->
+      <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:32px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:24px;">Live Preview</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">142</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Blocked Today</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">0.23%</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Fraud Rate</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">0.08%</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Chargeback Rate</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$8,940</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Saved</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <section id="analytics" class="feature-section" style="padding:clamp(64px,8vw,100px) clamp(16px,4vw,48px);border-top:1px solid rgba(255,255,255,0.06);">
+    <div style="max-width:1100px;margin:0 auto;">
+
+      <!-- Feature hero -->
+      <div style="margin-bottom:56px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:12px;">Products</div>
+        <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-.03em;color:#fff;margin:0 0 16px;">Analytics Dashboard</h2>
+        <p style="font-size:1.05rem;color:rgba(255,255,255,0.45);max-width:560px;line-height:1.75;">Live visibility into your revenue, volume, refunds, and trends — updated in real time.</p>
+      </div>
+
+      <!-- Feature cards -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px;">
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Real-time charts</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Revenue, volume, and refund metrics streaming live</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Cohort analysis</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Track retention and LTV by signup month</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Export &amp; API access</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Pull data into your BI tool or data warehouse</div>
+        </div>
+      </div>
+
+      <!-- Dashboard stats -->
+      <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:32px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:24px;">Live Preview</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$124,500</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">MRR</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$1.49M</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">ARR</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">3,841</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Active Customers</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$32.40</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">ARPU</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <section id="subscription-billing" class="feature-section" style="padding:clamp(64px,8vw,100px) clamp(16px,4vw,48px);border-top:1px solid rgba(255,255,255,0.06);">
+    <div style="max-width:1100px;margin:0 auto;">
+
+      <!-- Feature hero -->
+      <div style="margin-bottom:56px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:12px;">Products</div>
+        <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-.03em;color:#fff;margin:0 0 16px;">Subscription Billing</h2>
+        <p style="font-size:1.05rem;color:rgba(255,255,255,0.45);max-width:560px;line-height:1.75;">Flexible recurring billing for SaaS, usage-based, and seat-based businesses.</p>
+      </div>
+
+      <!-- Feature cards -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px;">
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Recurring subscriptions</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Monthly, annual, and custom billing intervals</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Usage-based metering</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Charge based on API calls, seats, or any metric</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Smart dunning &amp; retries</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Intelligent retry logic recovers failed payments</div>
+        </div>
+      </div>
+
+      <!-- Dashboard stats -->
+      <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:32px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:24px;">Live Preview</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">8,240</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Active Subscriptions</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$124,500</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">MRR</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">1.8%</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Churn Rate</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$2,140</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">LTV</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <section id="global-payouts" class="feature-section" style="padding:clamp(64px,8vw,100px) clamp(16px,4vw,48px);border-top:1px solid rgba(255,255,255,0.06);">
+    <div style="max-width:1100px;margin:0 auto;">
+
+      <!-- Feature hero -->
+      <div style="margin-bottom:56px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:12px;">Products</div>
+        <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-.03em;color:#fff;margin:0 0 16px;">Global Payouts</h2>
+        <p style="font-size:1.05rem;color:rgba(255,255,255,0.45);max-width:560px;line-height:1.75;">Pay out vendors, sellers, or contractors in their local currency via SWIFT, SEPA, or ACH.</p>
+      </div>
+
+      <!-- Feature cards -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px;">
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">45+ currencies</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Send payouts in the recipient's local currency</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">SWIFT / SEPA / ACH</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">All major rails supported globally</div>
+        </div>
+        <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;">
+          <div style="width:8px;height:8px;background:#fd5e53;border-radius:50%;margin-bottom:16px;"></div>
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Bulk payout batching</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">Send thousands of payouts in a single API call</div>
+        </div>
+      </div>
+
+      <!-- Dashboard stats -->
+      <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:32px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:24px;">Live Preview</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$94,200</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Queued</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">$142,800</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Sent Today</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">2</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Failed</div>
+          </div>
+          <div style="background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;">
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-.02em;">1.4 days</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;">Avg Processing</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="relative overflow-hidden bg-black"><video autoplay="" loop="" muted="" playsinline=""
+      class="absolute inset-0 h-full w-full object-cover">
+      <source src="/videos/footer-bg.mp4" type="video/mp4">
+    </video>
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="absolute inset-x-0 top-0 h-48 z-[1]"
+      style="background:linear-gradient(to bottom, #000000 0%, #000000 20%, transparent 100%)"></div>
+    <div class="relative z-10 mx-auto max-w-7xl px-6">
+      <div class="flex flex-col items-center justify-center py-24 text-center md:py-32">
+        <div class="mb-8 flex items-center gap-2"><span
+            style="display:inline-flex;align-items:baseline;line-height:1;letter-spacing:-0.01em"><span
+              style="font-family:'AeonikBoldItalic',sans-serif;font-weight:700;font-style:italic;font-size:1.9rem;color:inherit">Rayl</span><span
+              style="font-family:'AeonikLight',sans-serif;font-weight:300;font-style:normal;font-size:1.9rem;color:inherit;margin-left:0.12em">Pay</span></span>
+        </div>
+        <h2 class="max-w-3xl text-4xl font-medium leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">Start
+          selling everywhere<!-- --> <span class="font-serif italic text-white/80">today.</span></h2>
+        <p class="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/60 md:text-lg">Hand off the operational
+          complexity of global revenue. Rayl Pay handles payments, tax, and compliance — you focus on the product.</p><a
+          href="https://app.raylpay.io/signup"
+          class="mt-10 inline-flex h-12 items-center justify-center rounded-full bg-[#fd5e53] px-8 text-sm font-medium text-white transition-all duration-300 ease-out hover:bg-[#fd5e53]/90 hover:scale-[1.02]">Get
+          Started</a>
+      </div>
+      <div style="width:100%;padding:40px 0 32px;border-top:1px solid rgba(255,255,255,0.06);margin-top:16px;">
+        <p style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#fd5e53;margin-bottom:10px;text-align:center;">Global Offices</p>
+        <h2 style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.6rem;font-weight:700;color:#fff;text-align:center;margin-bottom:32px;letter-spacing:-0.02em;">
+          Rayl <span style="font-family:'AeonikLight',sans-serif;font-weight:300;">Operations</span>
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:860px;margin:0 auto;">
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px 28px;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(253,94,83,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#fd5e53;margin-bottom:10px;">USA</div>
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:6px;">Miami, Florida</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.5;">1200 Brickell Avenue, Suite 800<br>Miami, FL 33131</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px 28px;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(253,94,83,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#fd5e53;margin-bottom:10px;">EU</div>
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:6px;">Antwerp, Belgium</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.5;">Jos Ratinckxstraat 3<br>C082, Antwerp</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px 28px;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(253,94,83,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#fd5e53;margin-bottom:10px;">ME</div>
+            <div style="font-family:'AeonikBoldItalic',sans-serif;font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:6px;">Dubai, UAE</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.5;">DIFC, Gate District 3, Level 1<br>P.O. Box 507341, Dubai</div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="border-t border-white/10 py-6">
+        <div class="flex flex-col items-center justify-between gap-6 md:flex-row">
+          <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/60"><a
+              class="transition-colors hover:text-white" href="https://raylpay.io/features">Features</a><a
+              class="transition-colors hover:text-white" href="./pricing.html">Pricing</a><a
+              class="transition-colors hover:text-white" href="https://raylpay.io/docs">Docs</a><a
+              class="transition-colors hover:text-white" href="https://raylpay.io/contact">Contact</a></nav>
+          <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/60"><a
+              class="transition-colors hover:text-white" href="https://raylpay.io/legal/terms">Terms of Service</a><a
+              class="transition-colors hover:text-white" href="https://raylpay.io/legal/privacy">Privacy Policy</a><a
+              class="transition-colors hover:text-white" href="https://raylpay.io/legal/acceptable-use">Acceptable
+              Use</a><a class="transition-colors hover:text-white" href="https://raylpay.io/legal/buyer-terms">Checkout
+              Buyer Terms</a></nav>
+        </div>
+        <div
+          class="mt-6 flex flex-col items-center gap-2 text-center text-xs text-white/40 md:flex-row md:justify-between">
+          <p>© <!-- -->2026<!-- --> Rayl Pay. All rights reserved.</p>
+          <div style="display: flex;justify-content:end;flex-direction: column;">
+            <p>RAYL PAY IS A PROJECT OWNED BY RAYL TECHNOLOGIES</p>
+            <p>RAYL TECHNOLOGIES. BTW No. BE0717928771.</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./files/537732221c8d5ac1.js" id="_R_"
+    async=""></script>
+  <script>(self.__next_f = self.__next_f || []).push([0])</script>
+  <script>self.__next_f.push([1, "1:\"$Sreact.fragment\"\n2:I[2087,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\"],\"Navbar\"]\n3:I[28557,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\"],\"PageTransition\"]\n4:I[4338,[\"/_next/static/chunks/7518522132085d66.js\",\"/_next/static/chunks/609e5ef6dda2484d.js\"],\"default\"]\n5:I[52603,[\"/_next/static/chunks/7518522132085d66.js\",\"/_next/static/chunks/609e5ef6dda2484d.js\"],\"default\"]\nc:I[32557,[],\"default\"]\n:HL[\"/_next/static/chunks/5855f87e8dc35c45.css\",\"style\"]\n:HL[\"/_next/static/chunks/6a5b8263aaa8b66d.css\",\"style\"]\n:HL[\"/_next/static/media/7ebf22b5a21034f8-s.p.d8bad3ab.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n:HL[\"/_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n:HL[\"/_next/static/media/e41d5df559864f9e-s.p.380d09ea.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n:HL[\"/images/rayl-logo.png\",\"image\"]\n"])</script>
+  <script>self.__next_f.push([1, "0:{\"P\":null,\"b\":\"Jc_-M4HJhd6dp0-nVwSl3\",\"c\":[\"\",\"\"],\"q\":\"\",\"i\":false,\"f\":[[[\"\",{\"children\":[\"__PAGE__\",{}]},\"$undefined\",\"$undefined\",true],[[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/5855f87e8dc35c45.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/6a5b8263aaa8b66d.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}],[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/43a160f320c50c3c.js\",\"async\":true,\"nonce\":\"$undefined\"}],[\"$\",\"script\",\"script-1\",{\"src\":\"/_next/static/chunks/e7afdc673ade4722.js\",\"async\":true,\"nonce\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"inter_5901b7c6-module__ec5Qua__variable instrument_serif_cf54051c-module__eae87G__variable font-sans antialiased bg-background text-foreground\",\"children\":[[\"$\",\"$L2\",null,{}],[\"$\",\"$L3\",null,{\"children\":[\"$\",\"$L4\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L5\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000000}.next-error-h1{border-right:1px solid rgba(255,255,255,0.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]}],[\"$\",\"footer\",null,{\"className\":\"relative overflow-hidden bg-black\",\"children\":[[\"$\",\"video\",null,{\"autoPlay\":true,\"loop\":true,\"muted\":true,\"playsInline\":true,\"className\":\"absolute inset-0 h-full w-full object-cover\",\"children\":[\"$\",\"source\",null,{\"src\":\"/videos/footer-bg.mp4\",\"type\":\"video/mp4\"}]}],[\"$\",\"div\",null,{\"className\":\"absolute inset-0 bg-black/40\"}],[\"$\",\"div\",null,{\"className\":\"absolute inset-x-0 top-0 h-48 z-[1]\",\"style\":{\"background\":\"linear-gradient(to bottom, #000000 0%, #000000 20%, transparent 100%)\"}}],[\"$\",\"div\",null,{\"className\":\"relative z-10 mx-auto max-w-7xl px-6\",\"children\":[[\"$\",\"div\",null,{\"className\":\"flex flex-col items-center justify-center py-24 text-center md:py-32\",\"children\":[[\"$\",\"div\",null,{\"className\":\"mb-8 flex items-center gap-2\",\"children\":[[\"$\",\"img\",null,{\"src\":\"/images/rayl-logo.png\",\"alt\":\"Rayl Pay logo\",\"className\":\"h-8 w-auto\"}]]}],[\"$\",\"h2\",null,{\"className\":\"max-w-3xl text-4xl font-medium leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl\",\"children\":[\"Start selling everywhere\",\" \",[\"$\",\"span\",null,{\"className\":\"font-serif italic text-white/80\",\"children\":\"today.\"}]]}],[\"$\",\"p\",null,{\"className\":\"mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/60 md:text-lg\",\"children\":\"Hand off the operational complexity of global revenue. Rayl Pay handles payments, tax, and compliance — you focus on the product.\"}],[\"$\",\"a\",null,{\"href\":\"https://app.raylpay.io/signup\",\"className\":\"mt-10 inline-flex h-12 items-center justify-center rounded-full bg-[#fd5e53] px-8 text-sm font-medium text-white transition-all duration-300 ease-out hover:bg-[#fd5e53]/90 hover:scale-[1.02]\",\"children\":\"Get Started\"}]]}],[\"$\",\"div\",null,{\"className\":\"border-t border-white/10 py-6\",\"children\":[[\"$\",\"div\",null,{\"className\":\"flex flex-col items-center justify-between gap-6 md:flex-row\",\"children\":[\"$L6\",\"$L7\"]}],\"$L8\"]}]]}]]}],\"$L9\"]}]}]]}],{\"children\":[\"$La\",{},null,false,false]},null,false,false],\"$Lb\",false]],\"m\":\"$undefined\",\"G\":[\"$c\",[]],\"S\":true}\n"])</script>
+  <script>self.__next_f.push([1, "d:I[48805,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\"],\"\"]\ne:I[82218,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\"],\"\"]\n10:I[79109,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\",\"/_next/static/chunks/878b3a13c960df9d.js\",\"/_next/static/chunks/a276ac665f808639.js\"],\"HeroSection\"]\n11:I[16338,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\",\"/_next/static/chunks/878b3a13c960df9d.js\",\"/_next/static/chunks/a276ac665f808639.js\"],\"BillingShowcaseSection\"]\n12:I[5662,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\",\"/_next/static/chunks/878b3a13c960df9d.js\",\"/_next/static/chunks/a276ac665f808639.js\"],\"PaymentProvidersSection\"]\n13:I[13157,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\",\"/_next/static/chunks/878b3a13c960df9d.js\",\"/_next/static/chunks/a276ac665f808639.js\"],\"HowItWorks\"]\n14:I[7288,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\",\"/_next/static/chunks/878b3a13c960df9d.js\",\"/_next/static/chunks/a276ac665f808639.js\"],\"MorDifferenceSection\"]\n15:I[74003,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\",\"/_next/static/chunks/878b3a13c960df9d.js\",\"/_next/static/chunks/a276ac665f808639.js\"],\"GlobalPaymentsSection\"]\n16:I[4354,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\",\"/_next/static/chunks/878b3a13c960df9d.js\",\"/_next/static/chunks/a276ac665f808639.js\"],\"MerchantOfRecordSection\"]\n17:I[49818,[\"/_next/static/chunks/43a160f320c50c3c.js\",\"/_next/static/chunks/e7afdc673ade4722.js\",\"/_next/static/chunks/878b3a13c960df9d.js\",\"/_next/static/chunks/a276ac665f808639.js\"],\"CompetitivePricingSection\"]\n18:I[34831,[\"/_next/static/chunks/7518522132085d66.js\",\"/_next/static/chunks/609e5ef6dda2484d.js\"],\"OutletBoundary\"]\n19:\"$Sreact.suspense\"\n1b:I[34831,[\"/_next/static/chunks/7518522132085d66.js\",\"/_next/static/chunks/609e5ef6dda2484d.js\"],\"ViewportBoundary\"]\n1d:I[34831,[\"/_next/static/chunks/7518522132085d66.js\",\"/_next/static/chunks/609e5ef6dda2484d.js\"],\"MetadataBoundary\"]\n6:[\"$\",\"nav\",null,{\"className\":\"flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/60\",\"children\":[[\"$\",\"$Ld\",null,{\"href\":\"/features\",\"className\":\"transition-colors hover:text-white\",\"children\":\"Features\"}],[\"$\",\"$Ld\",null,{\"href\":\"/pricing\",\"className\":\"transition-colors hover:text-white\",\"children\":\"Pricing\"}],[\"$\",\"$Ld\",null,{\"href\":\"/docs\",\"className\":\"transition-colors hover:text-white\",\"children\":\"Docs\"}],[\"$\",\"$Ld\",null,{\"href\":\"/contact\",\"className\":\"transition-colors hover:text-white\",\"children\":\"Contact\"}]]}]\n7:[\"$\",\"nav\",null,{\"className\":\"flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/60\",\"children\":[[\"$\",\"$Ld\",null,{\"href\":\"/legal/terms\",\"className\":\"transition-colors hover:text-white\",\"children\":\"Terms of Service\"}],[\"$\",\"$Ld\",null,{\"href\":\"/legal/privacy\",\"className\":\"transition-colors hover:text-white\",\"children\":\"Privacy Policy\"}],[\"$\",\"$Ld\",null,{\"href\":\"/legal/acceptable-use\",\"className\":\"transition-colors hover:text-white\",\"children\":\"Acceptable Use\"}],[\"$\",\"$Ld\",null,{\"href\":\"/legal/buyer-terms\",\"className\":\"transition-colors hover:text-white\",\"children\":\"Checkout Buyer Terms\"}]]}]\n8:[\"$\",\"div\",null,{\"className\":\"mt-6 flex flex-col items-center gap-2 text-center text-xs text-white/40 md:flex-row md:justify-between\",\"children\":[[\"$\",\"p\",null,{\"children\":[\"© \",2026,\" Rayl Pay. All rights reserved.\"]}],[\"$\",\"p\",null,{\"children\":\"RAYL TECHNOLOGIES. BTW No. BE0717928771.\"}]]}]\nf:[[\"$\",\"a\",null,{\"href\":\"https://www.livechat.com/chat-with/19514911/\",\"rel\":\"nofollow\",\"children\":\"Chat with us\"}],\", powered by \",[\"$\",\"a\",null,{\"href\":\"https://www.livechat.com/?welcome\",\"rel\":\"noopener nofollow\",\"target\":\"_blank\",\"children\":\"LiveChat\"}]]\n9:[[\"$\",\"$Le\",null,{\"id\":\"livechat\",\"strategy\""])</script>
+  <script>self.__next_f.push([1, ":\"afterInteractive\",\"children\":\"\\n              window.__lc = window.__lc || {};\\n              window.__lc.license = 19514911;\\n              window.__lc.integration_name = \\\"manual_onboarding\\\";\\n              window.__lc.product_name = \\\"livechat\\\";\\n              ;(function(n,t,c){function i(n){return e._h?e._h.apply(null,n):e._q.push(n)}var e={_q:[],_h:null,_v:\\\"2.0\\\",on:function(){i([\\\"on\\\",c.call(arguments)])},once:function(){i([\\\"once\\\",c.call(arguments)])},off:function(){i([\\\"off\\\",c.call(arguments)])},get:function(){if(!e._h)throw new Error(\\\"[LiveChatWidget] You can't use getters before load.\\\");return i([\\\"get\\\",c.call(arguments)])},call:function(){i([\\\"call\\\",c.call(arguments)])},init:function(){var n=t.createElement(\\\"script\\\");n.async=!0,n.type=\\\"text/javascript\\\",n.src=\\\"https://cdn.livechatinc.com/tracking.js\\\",t.head.appendChild(n)}};!n.__lc.asyncInit\u0026\u0026e.init(),n.LiveChatWidget=n.LiveChatWidget||e}(window,document,[].slice))\\n            \"}],[\"$\",\"noscript\",null,{\"children\":\"$f\"}]]\na:[\"$\",\"$1\",\"c\",{\"children\":[[\"$\",\"main\",null,{\"className\":\"min-h-screen bg-background\",\"children\":[[\"$\",\"$L10\",null,{}],[\"$\",\"$L11\",null,{}],[\"$\",\"$L12\",null,{}],[\"$\",\"$L13\",null,{}],[\"$\",\"$L14\",null,{}],[\"$\",\"$L15\",null,{}],[\"$\",\"$L16\",null,{}],[\"$\",\"$L17\",null,{}]]}],[[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/878b3a13c960df9d.js\",\"async\":true,\"nonce\":\"$undefined\"}],[\"$\",\"script\",\"script-1\",{\"src\":\"/_next/static/chunks/a276ac665f808639.js\",\"async\":true,\"nonce\":\"$undefined\"}]],[\"$\",\"$L18\",null,{\"children\":[\"$\",\"$19\",null,{\"name\":\"Next.MetadataOutlet\",\"children\":\"$@1a\"}]}]]}]\nb:[\"$\",\"$1\",\"h\",{\"children\":[null,[\"$\",\"$L1b\",null,{\"children\":\"$L1c\"}],[\"$\",\"div\",null,{\"hidden\":true,\"children\":[\"$\",\"$L1d\",null,{\"children\":[\"$\",\"$19\",null,{\"name\":\"Next.Metadata\",\"children\":\"$L1e\"}]}]}],[\"$\",\"meta\",null,{\"name\":\"next-size-adjust\",\"content\":\"\"}]]}]\n"])</script>
+  <script>self.__next_f.push([1, "1c:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1, maximum-scale=5\"}],[\"$\",\"meta\",\"2\",{\"name\":\"theme-color\",\"content\":\"#000000\"}]]\n"])</script>
+  <script>self.__next_f.push([1, "1f:I[60847,[\"/_next/static/chunks/7518522132085d66.js\",\"/_next/static/chunks/609e5ef6dda2484d.js\"],\"IconMark\"]\n1a:null\n"])</script>
+  <script>self.__next_f.push([1, "1e:[[\"$\",\"title\",\"0\",{\"children\":\"Rayl Pay — Built for Global Software Revenue\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"Rayl Pay is the merchant of record platform built for software companies. Collect revenue globally, stay compliant, and protect against fraud — all from one place.\"}],[\"$\",\"meta\",\"2\",{\"name\":\"author\",\"content\":\"Rayl Pay\"}],[\"$\",\"meta\",\"3\",{\"name\":\"keywords\",\"content\":\"merchant of record,payment processing,SaaS payments,digital commerce,global payments,VAT compliance,fraud protection,subscription billing,Rayl Pay\"}],[\"$\",\"meta\",\"4\",{\"name\":\"creator\",\"content\":\"Rayl Pay\"}],[\"$\",\"meta\",\"5\",{\"name\":\"publisher\",\"content\":\"Rayl Pay\"}],[\"$\",\"meta\",\"6\",{\"name\":\"robots\",\"content\":\"index, follow\"}],[\"$\",\"meta\",\"7\",{\"name\":\"googlebot\",\"content\":\"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1\"}],[\"$\",\"meta\",\"8\",{\"property\":\"og:title\",\"content\":\"Rayl Pay — Built for Global Software Revenue\"}],[\"$\",\"meta\",\"9\",{\"property\":\"og:description\",\"content\":\"The merchant of record platform for modern software businesses. Global payments, tax automation, and fraud protection — built in.\"}],[\"$\",\"meta\",\"10\",{\"property\":\"og:url\",\"content\":\"https://raylpay.io\"}],[\"$\",\"meta\",\"11\",{\"property\":\"og:site_name\",\"content\":\"Rayl Pay\"}],[\"$\",\"meta\",\"12\",{\"property\":\"og:locale\",\"content\":\"en_US\"}],[\"$\",\"meta\",\"13\",{\"property\":\"og:type\",\"content\":\"website\"}],[\"$\",\"meta\",\"14\",{\"name\":\"twitter:card\",\"content\":\"summary_large_image\"}],[\"$\",\"meta\",\"15\",{\"name\":\"twitter:title\",\"content\":\"Rayl Pay — Built for Global Software Revenue\"}],[\"$\",\"meta\",\"16\",{\"name\":\"twitter:description\",\"content\":\"The merchant of record platform for modern software businesses. Global payments, tax automation, and fraud protection — built in.\"}],[\"$\",\"link\",\"17\",{\"rel\":\"icon\",\"href\":\"/icon.png?icon.4c61cf23.png\",\"sizes\":\"1536x1024\",\"type\":\"image/png\"}],[\"$\",\"link\",\"18\",{\"rel\":\"apple-touch-icon\",\"href\":\"/apple-icon.png?apple-icon.4c61cf23.png\",\"sizes\":\"1536x1024\",\"type\":\"image/png\"}],[\"$\",\"$L1f\",\"19\",{}]]\n"])</script>
+  <script defer=""
+    src="./files/v8c78df7c7c0f484497ecbca7046644da1771523124516"
+    integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg=="
+    data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;2c46ec11e75b4ed8873e97bf149e2cc0&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}"
+    crossorigin="anonymous"></script>
+  <script id="livechat" data-nscript="afterInteractive">
+    window.__lc = window.__lc || {};
+    window.__lc.license = 19514911;
+    window.__lc.integration_name = "manual_onboarding";
+    window.__lc.product_name = "livechat";
+    ; (function (n, t, c) { function i(n) { return e._h ? e._h.apply(null, n) : e._q.push(n) } var e = { _q: [], _h: null, _v: "2.0", on: function () { i(["on", c.call(arguments)]) }, once: function () { i(["once", c.call(arguments)]) }, off: function () { i(["off", c.call(arguments)]) }, get: function () { if (!e._h) throw new Error("[LiveChatWidget] You can't use getters before load."); return i(["get", c.call(arguments)]) }, call: function () { i(["call", c.call(arguments)]) }, init: function () { var n = t.createElement("script"); n.async = !0, n.type = "text/javascript", n.src = "https://cdn.livechatinc.com/tracking.js", t.head.appendChild(n) } }; !n.__lc.asyncInit && e.init(), n.LiveChatWidget = n.LiveChatWidget || e }(window, document, [].slice))
+  </script><next-route-announcer style="position: absolute;"><template shadowrootmode="open">
+      <div aria-live="assertive" id="__next-route-announcer__" role="alert"
+        style="position: absolute; border: 0px; height: 1px; margin: -1px; padding: 0px; width: 1px; clip: rect(0px, 0px, 0px, 0px); overflow: hidden; white-space: nowrap; overflow-wrap: normal;">
+      </div>
+    </template></next-route-announcer>
+  <script>
+      (function () {
+        /* ── 1. NAVBAR FLOATING EFFECT ── */
+        var nav = document.querySelector('header nav');
+        var lastScroll = 0;
+
+        function onScroll() {
+          var y = window.scrollY;
+          if (y > 30) {
+            nav.style.background = 'rgba(8,8,8,0.85)';
+            nav.style.backdropFilter = 'blur(20px)';
+            nav.style.webkitBackdropFilter = 'blur(20px)';
+            nav.style.border = '1px solid rgba(255,255,255,0.08)';
+            nav.style.boxShadow = '0 8px 32px rgba(255,255,255,0.3), 0 1px 0 rgba(255,255,255,0.04) inset';
+            nav.style.transform = 'scale(0.995)';
+          } else {
+            nav.style.background = 'transparent';
+            nav.style.backdropFilter = '';
+            nav.style.webkitBackdropFilter = '';
+            nav.style.border = '1px solid transparent';
+            nav.style.boxShadow = 'none';
+            nav.style.transform = 'scale(1)';
+          }
+          lastScroll = y;
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        /* ── 2. SCROLL ANIMATIONS ── */
+        var animateTargets = [
+          'section',
+          'h2', 'h3',
+          '.group',
+          '[class*="grid"] > div',
+          '[class*="flex"] > div[class*="mb-"]',
+        ];
+
+        function initScrollAnim() {
+          var els = document.querySelectorAll('section, h2, h3');
+          var cards = document.querySelectorAll('[class*="duration-700"]');
+
+          var allEls = Array.from(els).concat(Array.from(cards));
+
+          // Only animate elements not already visible / not the hero
+          allEls.forEach(function (el, i) {
+            var rect = el.getBoundingClientRect();
+            if (rect.top > window.innerHeight * 0.85 && !el.closest('header')) {
+              el.style.opacity = '0';
+              el.style.transform = 'translateY(28px)';
+              el.style.transition = 'opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1)';
+              el.dataset.needsAnim = '1';
+            }
+          });
+
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting && entry.target.dataset.needsAnim) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0px)';
+                delete entry.target.dataset.needsAnim;
+                io.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+          allEls.forEach(function (el) {
+            if (el.dataset.needsAnim) io.observe(el);
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initScrollAnim);
+        } else {
+          initScrollAnim();
+        }
+
+        /* ── 3. MOUSE GLOW TRACKING ON CARDS ── */
+        function initMouseTracking() {
+          document.querySelectorAll('[class*="group"]').forEach(function (card) {
+            card.addEventListener('mousemove', function (e) {
+              var rect = card.getBoundingClientRect();
+              card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+              card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+            });
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initMouseTracking);
+        } else {
+          initMouseTracking();
+        }
+
+        /* ── 4. DROPDOWN MENUS ── */
+        function initDropdowns() {
+          var header = document.querySelector('header');
+          if (!header) return;
+
+          // Desktop: Products, Solutions, Developers, Support buttons
+          var navButtons = header.querySelectorAll('nav button');
+          // Desktop dropdown panels (fixed inset-x-0 top-[76px])
+          var desktopPanels = Array.from(document.querySelectorAll('div[class*="fixed inset-x-0 top-\[76px\]"]'));
+          var desktopPanel = desktopPanels.find(function (el) { return el.classList.contains('hidden'); });
+
+          var activeBtn = null;
+
+          function openPanel(btn, idx) {
+            if (!desktopPanel) return;
+            desktopPanel.style.display = 'block';
+            requestAnimationFrame(function () {
+              desktopPanel.style.opacity = '1';
+              desktopPanel.style.visibility = 'visible';
+              desktopPanel.style.pointerEvents = 'auto';
+            });
+            activeBtn = btn;
+          }
+
+          function closePanel() {
+            if (!desktopPanel) return;
+            desktopPanel.style.opacity = '0';
+            desktopPanel.style.visibility = 'hidden';
+            desktopPanel.style.pointerEvents = 'none';
+            activeBtn = null;
+          }
+
+          navButtons.forEach(function (btn, idx) {
+            btn.addEventListener('click', function (e) {
+              e.stopPropagation();
+              if (activeBtn === btn) {
+                closePanel();
+              } else {
+                openPanel(btn, idx);
+              }
+            });
+          });
+
+          document.addEventListener('click', function () { closePanel(); });
+          if (desktopPanel) {
+            desktopPanel.addEventListener('click', function (e) { e.stopPropagation(); });
+          }
+
+          /* Mobile hamburger */
+          var mobilePanel = desktopPanels.find(function (el) { return !el.classList.contains('hidden'); });
+          var hamburger = header.querySelector('button[aria-label], button svg[class*="lucide-menu"]');
+          if (!hamburger) {
+            // Find button with menu icon (last button in header outside nav)
+            var allHeaderBtns = header.querySelectorAll('button');
+            hamburger = allHeaderBtns[allHeaderBtns.length - 1];
+          }
+          if (hamburger && mobilePanel) {
+            hamburger.addEventListener('click', function () {
+              var open = mobilePanel.style.maxHeight && mobilePanel.style.maxHeight !== '0px';
+              if (open) {
+                mobilePanel.style.maxHeight = '0px';
+                mobilePanel.style.opacity = '0';
+                mobilePanel.style.pointerEvents = 'none';
+              } else {
+                mobilePanel.style.maxHeight = '600px';
+                mobilePanel.style.opacity = '1';
+                mobilePanel.style.pointerEvents = 'auto';
+              }
+            });
+          }
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initDropdowns);
+        } else {
+          initDropdowns();
+        }
+
+        /* ── 5. CARD HOVER GLOW — ensure CSS var radial gradient layers activate ── */
+        document.addEventListener('DOMContentLoaded', function () {
+          document.querySelectorAll('[class*="group-hover:opacity-100"]').forEach(function (glow) {
+            var card = glow.closest('[class*="group"]');
+            if (!card) return;
+            card.addEventListener('mouseenter', function () {
+              glow.style.opacity = '1';
+            });
+            card.addEventListener('mouseleave', function () {
+              glow.style.opacity = '0';
+            });
+          });
+        });
+
+      })();
+  </script>
+
+
+  <script>
+    /* ── Sidebar scroll spy ── */
+    (function () {
+      var links = document.querySelectorAll('#rp-sidebar nav a');
+      var sections = Array.from(document.querySelectorAll('section'));
+
+      function onScroll() {
+        var scrollY = window.scrollY + window.innerHeight * 0.3;
+        var current = 0;
+        sections.forEach(function (s, i) {
+          if (s.offsetTop <= scrollY) current = i;
+        });
+        links.forEach(function (l, i) {
+          l.classList.toggle('rp-nav-active', i === current);
+        });
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      /* ── Add top padding so first section isn't hidden under mobile bar ── */
+      if (window.innerWidth <= 820) {
+        var first = document.querySelector('section');
+        if (first) first.style.paddingTop = '72px';
+      }
+    })();
+
+    /* ── Inject section number labels into each section heading ── */
+    (function () {
+      var sections = document.querySelectorAll('section');
+      sections.forEach(function (s, i) {
+        var h = s.querySelector('h2, h1');
+        if (!h) return;
+        var num = document.createElement('div');
+        num.style.cssText = 'font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(0,0,0,0.23);margin-bottom:10px;';
+        num.textContent = String(i + 1).padStart(2, '0') + ' / 0' + sections.length;
+        h.parentNode.insertBefore(num, h);
+      });
+    })();
+  </script>
+<script id="rp-nav-dropdown">
+(function(){
+  var dd = document.querySelector('.fixed.inset-x-0.top-\\[76px\\].z-40.hidden');
+  if (!dd) return;
+  var panels = dd.querySelectorAll('.transition-all.duration-300.ease-out.absolute.inset-x-6');
+  if (!panels.length) return;
+  var nav = document.querySelector('header nav');
+
+  function row(label, sub, href) {
+    return '<a href="'+href+'" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;" onmouseover="this.style.background=\'rgba(255,255,255,0.05)\'" onmouseout="this.style.background=\'\'"><span><span style="display:block;font-size:14px;font-weight:600;color:rgba(255,255,255,0.9);">'+label+'</span><span style="display:block;font-size:12px;color:rgba(255,255,255,0.4);margin-top:1px;">'+sub+'</span></span></a>';
+  }
+  function col(heading, items) {
+    return '<div><div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:16px;">'+heading+'</div>'+items+'</div>';
+  }
+  function featured(label, sub, href) {
+    return '<div style="background:rgba(253,94,83,0.06);border:1px solid rgba(253,94,83,0.15);border-radius:14px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;"><div><div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fd5e53;margin-bottom:10px;">Featured</div><div style="font-size:15px;font-weight:600;color:#fff;line-height:1.4;margin-bottom:8px;">'+label+'</div><div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;">'+sub+'</div></div><a href="'+href+'" style="margin-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#fd5e53;text-decoration:none;">Learn more \u2192</a></div>';
+  }
+  function panel(c1, c2, feat) {
+    return '<div style="display:grid;grid-template-columns:1fr 1fr 280px;gap:32px;">'+c1+c2+feat+'</div>';
+  }
+
+  var content = [
+    panel(
+      col('Payments', row('Payment Processing','Cards, wallets & local methods','./products.html#payment-processing')+row('Tax & Compliance','Automated VAT, GST & sales tax','./products.html#tax-compliance')+row('Fraud Protection','ML-powered risk scoring','./products.html#fraud-protection')),
+      col('Platform',  row('Analytics Dashboard','Real-time revenue insights','./products.html#analytics')+row('Subscription Billing','Recurring & usage-based billing','./products.html#subscription-billing')+row('Global Payouts','SWIFT / SEPA / ACH','./products.html#global-payouts')),
+      featured('New: Instant Checkout Overlay','Drop our checkout into any site in minutes.','./products.html#payment-processing')
+    ),
+    panel(
+      col('By company', row('SaaS Companies','Recurring revenue infrastructure','./solutions.html#saas')+row('Marketplaces','Multi-vendor payment splitting','./solutions.html#marketplaces')+row('Digital Products','Instant delivery + payments','./solutions.html#digital-products')),
+      col('By need',    row('Go Global','Sell in 45+ currencies instantly','./solutions.html#go-global')+row('Stay Compliant','Tax & legal handled for you','./solutions.html#stay-compliant')+row('Enterprise','Custom rates, SLA & support','./solutions.html#enterprise')),
+      featured('What is a Merchant of Record?','Understand what MoR means for your business.','./solutions.html#stay-compliant')
+    ),
+    panel(
+      col('Build',     row('Documentation','Guides & tutorials','./developers.html#docs')+row('REST API','Full payment API reference','./developers.html#api')+row('Webhooks','Real-time event notifications','./developers.html#webhooks')),
+      col('Resources', row('SDKs','JS, Python, PHP, Go & more','./developers.html#sdks')+row('Sandbox','Test without real money','./developers.html#sandbox')+row('Changelog','Latest platform updates','./developers.html#changelog')),
+      featured('Integrate in under 10 minutes','Our quickstart gets you live fast.','./developers.html#docs')
+    ),
+    panel(
+      col('Help',    row('Help Centre','Guides, FAQs & how-tos','./support.html#help')+row('Contact Us','Talk to a real human','./support.html#contact')+row('Status','Live platform uptime','./support.html#status')),
+      col('Company', row('Community','Developer forum & discussions','./support.html#community')+row('Blog','Product news & insights','./support.html#blog')+row('Partner Program','Resell or refer Rayl Pay','./support.html#partners')),
+      featured('24/7 human support included','Every plan includes real support, not bots.','./support.html#contact')
+    ),
+  ];
+
+  for (var i = 0; i < panels.length && i < content.length; i++) {
+    panels[i].innerHTML = content[i];
+  }
+
+  // Style inner wrapper: no top border, rounded only at bottom
+  var ddInner = dd.querySelector('.relative');
+  if (ddInner) {
+    ddInner.style.borderRadius = '0 0 16px 16px';
+    ddInner.style.borderTop = 'none';
+    ddInner.style.overflow = 'hidden';
+  }
+
+  // Position dropdown flush against the nav pill's bottom edge
+  function positionDD() {
+    if (!nav) return;
+    var r = nav.getBoundingClientRect();
+    dd.style.left = r.left + 'px';
+    dd.style.width = r.width + 'px';
+    dd.style.top = (r.bottom - 1) + 'px';
+    dd.style.right = 'auto';
+  }
+  positionDD();
+  window.addEventListener('resize', positionDD);
+
+  var btns = document.querySelectorAll('header .hidden.items-center.gap-0\\.5 button');
+  var timer;
+  dd.style.display = 'block';
+  dd.style.opacity = '0';
+  dd.style.visibility = 'hidden';
+  dd.style.pointerEvents = 'none';
+
+  function show(idx) {
+    clearTimeout(timer);
+    positionDD();
+    if (nav) {
+      nav.style.borderBottomLeftRadius = '0';
+      nav.style.borderBottomRightRadius = '0';
+      nav.style.background = '#0d0d0d';
+      nav.style.border = '1px solid rgba(255,255,255,0.08)';
+      nav.style.borderBottom = 'none';
+      nav.style.boxShadow = 'none';
+      nav.style.transition = 'border-radius 0.15s ease, background 0.15s ease';
+    }
+    dd.style.opacity = '1';
+    dd.style.visibility = 'visible';
+    dd.style.pointerEvents = 'auto';
+    panels.forEach(function(p, j) {
+      p.style.opacity = j === idx ? '1' : '0';
+      p.style.transform = j === idx ? 'translateY(0)' : 'translateY(8px)';
+      p.style.pointerEvents = j === idx ? 'auto' : 'none';
+    });
+    btns.forEach(function(b, j) {
+      var svg = b.querySelector('svg');
+      if (svg) svg.style.transform = j === idx ? 'rotate(180deg)' : '';
+    });
+  }
+
+  function hide() {
+    timer = setTimeout(function() {
+      dd.style.opacity = '0';
+      dd.style.visibility = 'hidden';
+      dd.style.pointerEvents = 'none';
+      if (nav) {
+        nav.style.borderBottomLeftRadius = '';
+        nav.style.borderBottomRightRadius = '';
+        nav.style.background = '';
+        nav.style.border = '';
+        nav.style.borderBottom = '';
+        nav.style.boxShadow = '';
+      }
+      btns.forEach(function(b) {
+        var svg = b.querySelector('svg');
+        if (svg) svg.style.transform = '';
+      });
+    }, 150);
+  }
+
+  btns.forEach(function(b, i) {
+    b.addEventListener('mouseenter', function() { show(i); });
+    b.addEventListener('mouseleave', function() { hide(); });
+    b.addEventListener('click', function() {
+      dd.style.visibility === 'hidden' ? show(i) : hide();
+    });
+  });
+  dd.addEventListener('mouseenter', function() { clearTimeout(timer); });
+  dd.addEventListener('mouseleave', function() { hide(); });
+
+  // Mobile toggle
+  var mobilePanel = document.querySelector('header .fixed.inset-x-0.top-\\[76px\\].z-40.overflow-hidden');
+  var menuBtn = document.querySelector('header button[aria-label="Toggle menu"]');
+  if (menuBtn && mobilePanel) {
+    menuBtn.addEventListener('click', function() {
+      var open = mobilePanel.style.maxHeight && mobilePanel.style.maxHeight !== '0px';
+      mobilePanel.style.maxHeight = open ? '0' : '80vh';
+      mobilePanel.style.opacity  = open ? '0' : '1';
+      mobilePanel.style.pointerEvents = open ? 'none' : 'auto';
+    });
+  }
+  var mobileBtns = document.querySelectorAll('header .fixed.inset-x-0.top-\\[76px\\].z-40.overflow-hidden .flex.flex-col button');
+  var menuDefs = [
+    ['Payment Processing','./products.html#payment-processing'],['Tax & Compliance','./products.html#tax-compliance'],['Fraud Protection','./products.html#fraud-protection'],['Analytics Dashboard','./products.html#analytics'],['Subscription Billing','./products.html#subscription-billing'],['Global Payouts','./products.html#global-payouts'],
+    ['SaaS Companies','./solutions.html#saas'],['Marketplaces','./solutions.html#marketplaces'],['Digital Products','./solutions.html#digital-products'],['Go Global','./solutions.html#go-global'],['Stay Compliant','./solutions.html#stay-compliant'],['Enterprise','./solutions.html#enterprise'],
+    ['Documentation','./developers.html#docs'],['REST API','./developers.html#api'],['Webhooks','./developers.html#webhooks'],['SDKs','./developers.html#sdks'],['Sandbox','./developers.html#sandbox'],
+    ['Help Centre','./support.html#help'],['Contact Us','./support.html#contact'],['Status','./support.html#status'],['Community','./support.html#community'],['Blog','./support.html#blog'],
+  ];
+  mobileBtns.forEach(function(btn, i) {
+    var sub = document.createElement('div');
+    sub.style.cssText = 'max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 0 0 12px;';
+    var slice = i === 0 ? menuDefs.slice(0,6) : i === 1 ? menuDefs.slice(6,12) : i === 2 ? menuDefs.slice(12,17) : menuDefs.slice(17);
+    var mhtml = '';
+    slice.forEach(function(item) {
+      mhtml += '<a href="'+item[1]+'" style="display:block;padding:8px 12px;border-radius:8px;text-decoration:none;font-size:13px;color:rgba(255,255,255,0.7);" onmouseover="this.style.background=\'rgba(255,255,255,0.05)\'" onmouseout="this.style.background=\'\'">'+item[0]+'</a>';
+    });
+    sub.innerHTML = mhtml;
+    btn.parentNode.appendChild(sub);
+    btn.addEventListener('click', function() {
+      var open = sub.style.maxHeight && sub.style.maxHeight !== '0px';
+      sub.style.maxHeight = open ? '0' : '400px';
+      var svg = btn.querySelector('svg');
+      if (svg) svg.style.transform = open ? '' : 'rotate(180deg)';
+    });
+  });
+})();
+</script>
+<script id="rp-scrollbar">
+(function(){
+  var pill = document.createElement('div');
+  pill.id = 'rp-scroll-pill';
+  pill.style.cssText = 'position:fixed;right:10px;top:0;width:4px;min-height:40px;border-radius:9999px;background:rgba(255,255,255,0.22);pointer-events:none;z-index:9998;opacity:0;transition:opacity 0.4s ease;will-change:transform,opacity;';
+  document.body.appendChild(pill);
+
+  var s = document.createElement('style');
+  s.textContent = 'html{scrollbar-width:none;}html::-webkit-scrollbar{display:none;}';
+  document.head.appendChild(s);
+
+  var hideTimer;
+
+  function update() {
+    var viewH = window.innerHeight;
+    var docH  = document.documentElement.scrollHeight;
+    if (docH <= viewH) { pill.style.opacity = '0'; return; }
+
+    var pillH = Math.max(40, Math.min(120, Math.round((viewH / docH) * viewH)));
+    pill.style.height = pillH + 'px';
+
+    var progress = window.scrollY / (docH - viewH);
+    var margin   = 16;
+    var travel   = viewH - pillH - margin * 2;
+    pill.style.transform = 'translateY(' + Math.round(margin + progress * travel) + 'px)';
+    pill.style.opacity   = '1';
+
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(function(){ pill.style.opacity = '0'; }, 1200);
+  }
+
+  window.addEventListener('scroll', update, {passive:true});
+  window.addEventListener('resize', update);
+  window.addEventListener('load', update);
+})();
+</script>
+
+<script>
+(function(){
+  var navLinks = document.querySelectorAll('.section-nav a');
+  if (!navLinks.length) return;
+  var sections = Array.from(document.querySelectorAll('.feature-section'));
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        navLinks.forEach(function(a){
+          a.classList.toggle('active', a.getAttribute('href') === '#'+id);
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+  sections.forEach(function(s){ io.observe(s); });
+})();
+</script>
+</body>
+</html>

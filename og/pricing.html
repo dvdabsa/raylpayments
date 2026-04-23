@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0;padding:0;box-sizing:border-box; }
+  body {
+    width:1200px;height:630px;overflow:hidden;
+    background:#000;font-family:'Helvetica Neue',Arial,sans-serif;
+  }
+  .grid {
+    position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);
+    background-size:60px 60px;
+  }
+  .glow {
+    position:absolute;right:-80px;top:50%;transform:translateY(-50%);
+    width:560px;height:560px;border-radius:50%;
+    background:radial-gradient(circle,rgba(253,94,83,0.18) 0%,transparent 70%);
+  }
+  .content { position:relative;z-index:2;padding:56px 72px;height:100%;display:flex;flex-direction:column;justify-content:space-between; }
+  .logo { height:44px;object-fit:contain;object-position:left center;filter:invert(1); }
+  .divider { width:80px;height:3px;background:#fd5e53;border-radius:2px;margin-top:20px; }
+  .body { flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 0; }
+  .title { font-size:64px;font-weight:800;color:#fff;line-height:1.05;letter-spacing:-2px;margin-bottom:20px; }
+  .desc { font-size:24px;color:rgba(255,255,255,0.5);font-weight:400;line-height:1.5;max-width:720px; }
+  .footer { display:flex;align-items:center;justify-content:space-between; }
+  .url { font-size:20px;color:rgba(255,255,255,0.28);letter-spacing:0.5px; }
+  .bar { position:absolute;bottom:0;left:0;width:240px;height:4px;background:#fd5e53;border-radius:0 2px 0 0; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="glow"></div>
+  <div class="content">
+    <div>
+      <img class="logo" src="../og/logo.png" alt="Rayl Technologies">
+      <div class="divider"></div>
+    </div>
+    <div class="body">
+      <div class="title">Simple Pricing</div>
+      <div class="desc">One flat rate. No setup fees, no surprises — everything included.</div>
+    </div>
+    <div class="footer">
+      <span class="url">raylpay.io</span>
+    </div>
+  </div>
+  <div class="bar"></div>
+</body>
+</html>
